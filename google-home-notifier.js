@@ -45,20 +45,21 @@ var notify = function(message, callback) {
 };
 
 var play = function(mp3_url, callback) {
+  
   if (!deviceAddress){
     browser.start();
     browser.on('serviceUp', function(service) {
       console.log('Device "%s" at %s:%d', service.name, service.addresses[0], service.port);
       if (service.name.includes(device.replace(' ', '-'))){
         deviceAddress = service.addresses[0];
-        getPlayUrl(mp3_url, deviceAddress, function(res) {
+        getPlayUrl(decodeURIComponent(mp3_url), deviceAddress, function(res) {
           callback(res);
         });
       }
       browser.stop();
     });
   }else {
-    getPlayUrl(mp3_url, deviceAddress, function(res) {
+    getPlayUrl(decodeURIComponent(mp3_url), deviceAddress, function(res) {
       callback(res);
     });
   }
